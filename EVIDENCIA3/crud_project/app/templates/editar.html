@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Editar contacto</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Agenda</a>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'listar' %}">Contactos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        <div class="container">
+            <h1 class="mb-3">Editar contacto</h1>
+
+            {% if errors %}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                {% for field, msg in errors.items %}
+                    <li>{{ msg }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" type="text" name="nombre" value="{{ contacto.nombre }}" maxlength="100" pattern="[A-Za-z\s]+">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Primer apellido</label>
+                        <input class="form-control" type="text" name="primer_apellido" value="{{ contacto.primer_apellido }}" maxlength="100" pattern="[A-Za-z\s]+">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Segundo apellido</label>
+                        <input class="form-control" type="text" name="segundo_apellido" value="{{ contacto.segundo_apellido|default:'' }}" maxlength="100" pattern="[A-Za-z\s]+">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Alias</label>
+                        <input class="form-control" type="text" name="alias" value="{{ contacto.alias|default:'' }}" maxlength="100" pattern="[A-Za-z\s]+">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Relación</label>
+                        <select class="form-select" name="relacion">
+                            <option value="">-- seleccione --</option>
+                            {% for r in relaciones %}
+                                <option value="{{ r.id }}" {% if contacto.relacion.id == r.id %}selected{% endif %}>{{ r.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Teléfono</label>
+                        <input class="form-control" type="text" name="telefono" value="{{ contacto.telefono }}" maxlength="30" pattern="^\d{10}$">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Correo</label>
+                    <input class="form-control" type="email" name="correo" value="{{ contacto.correo|default:'' }}" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$">
+                </div>
+
+                <button class="btn btn-primary" type="submit">Guardar</button>
+                <a class="btn btn-secondary" href="{% url 'listar' %}">Cancelar</a>
+            </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
