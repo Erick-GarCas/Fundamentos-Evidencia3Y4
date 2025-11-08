@@ -20,8 +20,9 @@
     <form method="post" class="product-form">
       {% csrf_token %}
       <div class="form-row">
-        <label class="form-label" for="id_nombre">Nombre</label>
-        <input class="full-width" id="id_nombre" type="text" name="nombre" value="{{ producto.nombre }}" pattern="[A-Za-z\s]+">
+  <label class="form-label" for="id_nombre">Nombre</label>
+  <!-- Allow letters (including accented), numbers, spaces and hyphens -->
+  <input class="full-width" id="id_nombre" type="text" name="nombre" value="{{ producto.nombre }}" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s\-]+$">
       </div>
 
       <div class="form-row">
